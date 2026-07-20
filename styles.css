@@ -138,7 +138,7 @@ body { display:grid; place-items:center; min-height:100dvh; background:radial-gr
   html, body { width:100%; min-height:100%; overflow-x:hidden; overscroll-behavior:none; }
   body { display:block; background:#102a31; }
   #game-shell { width:100vw; min-height:100dvh; aspect-ratio:auto; box-shadow:none; background:linear-gradient(#345d55 0 32%,#17343b 32% 100%); }
-  #game { width:100%; height:auto; aspect-ratio:550 / 340; }
+  #game { width:100%; height:56dvh; aspect-ratio:550 / 340; object-fit:cover; object-position:left center; }
   .overlay, .start-screen { min-height:100dvh; padding:calc(12px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left)); }
   .panel { width:min(690px,94vw); max-height:88dvh; }
   .touch-controls { right:max(14px, env(safe-area-inset-right)); bottom:max(16px, env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(2, 68px); grid-template-areas:'left right' 'action full'; gap:8px; padding:8px; background:rgba(13,39,43,.9); border:2px solid #e9d38e; box-shadow:4px 4px 0 #17383a; }
@@ -151,8 +151,9 @@ body { display:grid; place-items:center; min-height:100dvh; background:radial-gr
 }
 
 @media (max-width:760px) and (orientation:landscape) {
-  body { display:grid; place-items:center; }
-  #game-shell { width:min(100vw,161.765dvh); min-height:0; aspect-ratio:1100 / 680; background:#345d55; }
+  body { display:block; }
+  #game-shell { width:100vw; min-height:100dvh; aspect-ratio:auto; background:#345d55; }
+  #game { width:100vw; height:100dvh; object-fit:cover; object-position:left bottom; }
   .overlay, .start-screen { min-height:0; }
   .touch-controls { grid-template-columns:repeat(2, 54px); gap:5px; padding:5px; right:max(10px, env(safe-area-inset-right)); bottom:max(10px, env(safe-area-inset-bottom)); }
   .touch-key, .touch-action, .touch-fullscreen { width:54px; min-width:54px; height:48px; min-height:48px; border-width:2px; font-size:14px; }
