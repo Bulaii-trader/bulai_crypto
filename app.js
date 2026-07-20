@@ -135,7 +135,7 @@ state.level = state.completed.length;
 
 let player = { x: 145, y: 510, r: 16, walkClock: 0, moving: false };
 let playerFacing = 1;
-let keys = new Set(); let locked = true; let dialogOpen = false; let last = 0; let animationTime = 0; let levelBurstUntil = 0; let lastStepSound = 0; let cameraX = 0;
+let keys = new Set(); let locked = true; let dialogOpen = false; let last = 0; let animationTime = 0; let levelBurstUntil = 0; let lastStepSound = 0; let cameraX = 0; let interactionLatch = '';
 let audioContext;
 
 function enableAudio() {
@@ -162,7 +162,7 @@ function nextStage() { return stages.find(stage => !state.completed.includes(sta
 function activeScene() { return sideScenes[nextStage()?.id] || sideScenes.boss; }
 function activeDemon() { const stage = nextStage(); return stage ? innerDemons.find(demon => demon.stage === stage.id) : null; }
 function activeMentor() { const stage = nextStage(); return stage ? npcs[stage.npc] : null; }
-function enterStage() { player.x = 145; player.y = 510; player.walkClock = 0; keys.clear(); }
+function enterStage() { player.x = 145; player.y = 510; player.walkClock = 0; interactionLatch = ''; keys.clear(); }
 function stageForNpc(npc) { return stages.find(stage => stage.npc === npc.id); }
 function stageIsAvailable(stage) { return stages.indexOf(stage) === state.completed.length; }
 function titleFor(stage) { return `第 ${stage.number} 關 · ${stage.place}`; }
@@ -208,21 +208,27 @@ function intro() {
   overlay.querySelector('[data-close]').onclick = () => { state.intro = true; persist(); updateHUD(); close(); tutorial(); };
 }
 function tutorial() {
-  show(`<div class="panel center"><div class="portrait" style="margin:auto">📜</div><h2>小小冒險守則</h2><div class="fact"><b>探索</b><br>用 <b>WASD／方向鍵</b> 移動，靠近導師時按 <b>E</b> 互動。</div><div class="fact"><b>收藏</b><br>每關通過都會得到道具。按 <b>B</b> 或點 🎒 可查看背包。</div><div class="fact"><b>第一個任務</b><br>前往西南側的「古堡鍛造院」，找金相・衡練習先守住風險。</div><button class="continue" data-close>出發吧 →</button></div>`);
+  show(`<div class="panel center"><div class="portrait" style="margin:auto">📜</div><h2>小小冒險守則</h2><div class="fact"><b>探索</b><br>用 <b>WASD／方向鍵</b> 移動，碰到心魔或導師時會<b>自動互動</b>。</div><div class="fact"><b>收藏</b><br>每關通過都會得到道具。按 <b>B</b> 或點 🎒 可查看背包。</div><div class="fact"><b>第一個任務</b><br>前往西南側的「古堡鍛造院」，找金相・衡練習先守住風險。</div><button class="continue" data-close>出發吧 →</button></div>`);
 }
-function interact() {
-  if (locked) return;
+function interactionTargets() {
   const stage = nextStage();
-  if (!stage) { rewardChest(); return; }
+  if (!stage) return [];
   const scene = activeScene();
   const mentor = activeMentor();
   const demon = activeDemon();
-  const targets = [
-    { type:'npc', value:mentor, x:scene.mentor.x, y:scene.mentor.y },
-    { type:'demon', value:demon, x:scene.demon.x, y:scene.demon.y },
-  ].map(target => ({ ...target, distance:Math.hypot(player.x-target.x, player.y-target.y) })).filter(target => target.distance < (target.type === 'demon' ? 110 : 90)).sort((a,b) => a.distance-b.distance);
-  if (!targets.length) return;
-  const target = targets[0];
+  return [
+    { type:'npc', value:mentor, x:scene.mentor.x, y:scene.mentor.y, range:108 },
+    { type:'demon', value:demon, x:scene.demon.x, y:scene.demon.y, range:122 },
+  ].map(target => ({ ...target, distance:Math.hypot(player.x-target.x, player.y-target.y) }))
+    .filter(target => target.distance < target.range)
+    .sort((a,b) => a.distance-b.distance);
+}
+function interact(target = null) {
+  if (locked) return;
+  const stage = nextStage();
+  if (!stage) { rewardChest(); return; }
+  target ||= interactionTargets()[0];
+  if (!target) return;
   if (target.type === 'demon') { playDemon(); confrontDemon(target.value); return; }
   const near = target.value;
   if (state.completed.includes(stage.id)) {
@@ -236,6 +242,15 @@ function interact() {
   } else {
     stageLesson(stage);
   }
+}
+function autoInteract() {
+  if (locked || !state.intro || !nextStage()) return;
+  const target = interactionTargets()[0];
+  if (!target) { interactionLatch = ''; return; }
+  const key = `${target.type}:${target.value.id}`;
+  if (interactionLatch === key) return;
+  interactionLatch = key;
+  interact(target);
 }
 function confrontDemon(demon) {
   const firstMeeting = !state.demonsMet.includes(demon.stage);
@@ -336,7 +351,7 @@ function npc(npc) {
   }
   const labelY = npc.element ? npc.y-244 : npc.y-42;
   if (active) label('！',npc.x,labelY-26,'#ffcf52');
-  if (Math.hypot(player.x-npc.x,player.y-npc.y)<74 && !locked) label('E 交談',npc.x,npc.y+50,'#ffc44f'); else label(npc.name,npc.x,npc.y+50,'#fff0c9');
+  if (Math.hypot(player.x-npc.x,player.y-npc.y)<108 && !locked) label('靠近自動交談',npc.x,npc.y+50,'#ffc44f'); else label(npc.name,npc.x,npc.y+50,'#fff0c9');
 }
 function building(x,y,w,h,wall,roof,name) { rect(x,y,w,h,wall);ctx.fillStyle=roof;ctx.beginPath();ctx.moveTo(x-16,y);ctx.lineTo(x+w/2,y-54);ctx.lineTo(x+w+16,y);ctx.fill();label(name,x+w/2,Math.max(36,y-70),'#ffc44f'); }
 function drawDemon(demon, index) {
@@ -347,7 +362,7 @@ function drawDemon(demon, index) {
   if (art.complete && art.naturalWidth) ctx.drawImage(art, demon.x-96, demon.y-154+bob, 192, 192);
   else rect(demon.x-15,demon.y-25+bob,30,38,demon.color);
   if (active) label('！',demon.x,demon.y-160+bob,'#ffcf52');
-  if (Math.hypot(player.x-demon.x,player.y-demon.y)<110 && !locked) label('E 面對心魔',demon.x,demon.y+78+bob,'#ffc44f'); else label(demon.name,demon.x,demon.y+78+bob,'#fff0c9');
+  if (Math.hypot(player.x-demon.x,player.y-demon.y)<122 && !locked) label('靠近自動面對',demon.x,demon.y+78+bob,'#ffc44f'); else label(demon.name,demon.x,demon.y+78+bob,'#fff0c9');
 }
 function drawVillageAmbient() {
   const drift = Math.floor(animationTime / 55);
@@ -443,6 +458,7 @@ function loop(time) {
   if (!locked) {
     const dx=(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0);
     if(dx) { const speed=.26*dt;player.x=Math.max(70,Math.min(WORLD_W-70,player.x+dx*speed));player.y=510;playerFacing=dx>0?1:-1;player.walkClock+=dt;player.moving=true;if(time-lastStepSound>190){playStep();lastStepSound=time;} }
+    autoInteract();
   }
   updateGuidance();
   const viewWidth = visibleWorldWidth();
