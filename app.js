@@ -264,19 +264,30 @@ function stageLesson(stage) {
 }
 function quiz(stage, index, score, history) {
   const question = stage.questions[index];
-  show(`<div class="panel"><div class="quiz-top"><span>${titleFor(stage)} 試煉</span><span>答對 ${score} / ${index}</span></div><h3>第 ${index + 1} 題／${stage.questions.length}</h3><p>${question.q}</p><div class="forge">${question.o.map((option, answer) => `<button data-answer="${answer}">${option}</button>`).join('')}</div><div class="explain" id="explain">選擇你的答案，讓火焰為你的計畫定型。</div></div>`);
-  overlay.querySelectorAll('[data-answer]').forEach(button => button.onclick = () => {
-    const choice = +button.dataset.answer;
+  let selectedChoice = null;
+  show(`<div class="panel"><div class="quiz-top"><span>${titleFor(stage)} 試煉</span><span>答對 ${score} / ${index}</span></div><h3>第 ${index + 1} 題／${stage.questions.length}</h3><p>${question.q}</p><div class="forge" role="radiogroup" aria-label="選擇答案">${question.o.map((option, answer) => `<button class="quiz-choice" data-answer="${answer}" aria-pressed="false"><b>${'ABCD'[answer]}</b>${option}</button>`).join('')}</div><div class="explain" id="explain">先選擇答案；確認送出前都可以改選。</div><button class="continue quiz-submit" id="confirm-answer" disabled>確認送出 →</button></div>`);
+  const answers = overlay.querySelectorAll('[data-answer]');
+  const explanation = document.querySelector('#explain');
+  const confirm = document.querySelector('#confirm-answer');
+  answers.forEach(button => button.onclick = () => {
+    selectedChoice = +button.dataset.answer;
+    answers.forEach(answer => { answer.classList.toggle('selected', answer === button); answer.setAttribute('aria-pressed', answer === button); });
+    confirm.disabled = false;
+    explanation.textContent = `已選擇 ${'ABCD'[selectedChoice]}。想改答案可直接點選其他選項。`;
+  });
+  confirm.onclick = () => {
+    if (selectedChoice === null) return;
+    const choice = selectedChoice;
     const correct = choice === question.a;
     correct ? playCorrect() : playWrong();
-    overlay.querySelectorAll('[data-answer]').forEach(answer => answer.disabled = true);
-    button.classList.add(correct ? 'good' : 'bad');
+    answers.forEach(answer => answer.disabled = true);
+    overlay.querySelector(`[data-answer="${choice}"]`).classList.remove('selected');
+    overlay.querySelector(`[data-answer="${choice}"]`).classList.add(correct ? 'good' : 'bad');
     if (!correct) overlay.querySelector(`[data-answer="${question.a}"]`).classList.add('good');
-    const explanation = document.querySelector('#explain');
     explanation.innerHTML = `${correct ? '✓ 火焰穩定！' : '這次沒關係。'} ${question.e}<br><button class="continue" id="next" style="float:none;margin-top:12px">${index === stage.questions.length - 1 ? '查看試煉 Review →' : '下一題 →'}</button>`;
     const answer = { choice, correct };
     document.querySelector('#next').onclick = () => index === stage.questions.length - 1 ? result(stage, score + correct, [...history, answer]) : quiz(stage, index + 1, score + correct, [...history, answer]);
-  });
+  };
 }
 function result(stage, score, history) {
   const passed = score >= 4;
