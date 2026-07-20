@@ -431,6 +431,13 @@ function drawPlayer() {
     for (let i=0;i<12;i++) { const angle=i*Math.PI/6; const distance=18+progress*96; const x=Math.round(player.x+Math.cos(angle)*distance); const y=Math.round(player.y-30+Math.sin(angle)*distance); rect(x,y,7,7,i%2?'#ffcf52':'#f2532d'); }
   }
 }
+function visibleWorldWidth() {
+  const portraitMobile = window.matchMedia('(max-width: 760px) and (orientation: portrait)').matches;
+  if (!portraitMobile || !canvas.clientWidth || !canvas.clientHeight) return W;
+  // Portrait uses object-fit: cover. Convert the visible canvas slice back into world units.
+  const imageScale = canvas.clientHeight / canvas.height;
+  return Math.max(360, Math.min(W, (canvas.clientWidth / imageScale) * 2));
+}
 function loop(time) {
   const dt = Math.min(32,time-last||16); last=time; animationTime=time; player.moving=false;
   if (!locked) {
@@ -438,7 +445,8 @@ function loop(time) {
     if(dx) { const speed=.26*dt;player.x=Math.max(70,Math.min(WORLD_W-70,player.x+dx*speed));player.y=510;playerFacing=dx>0?1:-1;player.walkClock+=dt;player.moving=true;if(time-lastStepSound>190){playStep();lastStepSound=time;} }
   }
   updateGuidance();
-  cameraX=Math.max(0,Math.min(WORLD_W-W,player.x-310));
+  const viewWidth = visibleWorldWidth();
+  cameraX=Math.max(0,Math.min(WORLD_W-viewWidth,player.x-viewWidth/2));
   ctx.setTransform(.5,0,0,.5,0,0);ctx.translate(-cameraX,0);drawWorld();ctx.setTransform(1,0,0,1,0,0);
   requestAnimationFrame(loop);
 }
