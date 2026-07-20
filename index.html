@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#244c48" />
     <title>布萊得比特交易魔法師：元素試煉</title>
     <link rel="stylesheet" href="styles.css" />
@@ -29,7 +29,9 @@
         <button class="touch-key touch-left" data-key="arrowleft" aria-label="向左移動">◀</button>
         <button class="touch-key touch-right" data-key="arrowright" aria-label="向右移動">▶</button>
         <button class="touch-action" id="touch-interact" aria-label="互動">E<br /><small>互動</small></button>
+        <button class="touch-fullscreen" id="touch-fullscreen" aria-label="進入全螢幕橫向遊玩">⛶<br /><small>全螢幕</small></button>
       </nav>
+      <p class="mobile-orientation-note">↻ 橫向全螢幕可獲得最佳視野</p>
       <section id="overlay" class="overlay hidden" aria-live="polite"></section>
       <section id="start-screen" class="start-screen">
         <div class="title-mark"><img src="assets/fire-wizard-x8-walk-0.png" alt="火元素交易魔法師" /></div>
@@ -38,7 +40,7 @@
         <p class="subtitle">橫向前進，依序面對五個交易中的自己。</p>
         <label>你的冒險者暱稱<input id="name-input" maxlength="12" placeholder="例如：小幣" /></label>
         <button id="start-button" class="primary">開始第一關 <span>→</span></button>
-        <p class="controls">A／D 或方向鍵移動　·　E 互動　·　手機可用畫面下方按鈕</p>
+        <p class="controls">A／D 或方向鍵移動　·　E 互動　·　手機可點右下 ⛶ 全螢幕遊玩</p>
         <p class="disclaimer">本遊戲內容僅為教育用途，不構成投資建議。合約交易具高風險，請自行評估。</p>
       </section>
     </main>

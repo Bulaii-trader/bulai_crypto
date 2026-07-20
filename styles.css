@@ -130,3 +130,32 @@ body { display:grid; place-items:center; min-height:100dvh; background:radial-gr
 @media (max-width:620px) {
   .final-awakening { grid-template-columns:1fr; }.final-awakening img { min-height:150px; max-height:225px; }.final-awakening-copy { padding:13px; }.final-awakening-copy h2 { font-size:19px; }
 }
+
+/* Mobile play mode: the game shell becomes a safe full-height touch surface. */
+.touch-fullscreen, .mobile-orientation-note { display:none; }
+
+@media (max-width:760px) {
+  html, body { width:100%; min-height:100%; overflow-x:hidden; overscroll-behavior:none; }
+  body { display:block; background:#102a31; }
+  #game-shell { width:100vw; min-height:100dvh; aspect-ratio:auto; box-shadow:none; background:linear-gradient(#345d55 0 32%,#17343b 32% 100%); }
+  #game { width:100%; height:auto; aspect-ratio:550 / 340; }
+  .overlay, .start-screen { min-height:100dvh; padding:calc(12px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left)); }
+  .panel { width:min(690px,94vw); max-height:88dvh; }
+  .touch-controls { right:max(14px, env(safe-area-inset-right)); bottom:max(16px, env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(2, 68px); grid-template-areas:'left right' 'action full'; gap:8px; padding:8px; background:rgba(13,39,43,.9); border:2px solid #e9d38e; box-shadow:4px 4px 0 #17383a; }
+  .touch-left { grid-area:left; }.touch-right { grid-area:right; }.touch-action { grid-area:action; }.touch-fullscreen { grid-area:full; }
+  .touch-key, .touch-action, .touch-fullscreen { display:grid; place-items:center; width:68px; min-width:68px; height:62px; min-height:62px; border:3px solid #e9d38e; box-shadow:3px 3px 0 #18363b; font-size:18px; touch-action:none; -webkit-tap-highlight-color:transparent; }
+  .touch-action { color:#203f3a; background:#efc865; line-height:.95; }.touch-fullscreen { color:#fff8e8; background:#326a64; line-height:.95; }
+  .touch-action small, .touch-fullscreen small { font-size:9px; }
+  .touch-key:active, .touch-action:active, .touch-fullscreen:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #18363b; }
+  .mobile-orientation-note { position:absolute; right:max(14px, env(safe-area-inset-right)); bottom:178px; z-index:3; display:block; max-width:152px; margin:0; color:#dcefcf; font:700 10px/1.45 'Noto Sans TC',sans-serif; text-align:right; text-shadow:1px 1px 0 #10252b; pointer-events:none; }
+}
+
+@media (max-width:760px) and (orientation:landscape) {
+  body { display:grid; place-items:center; }
+  #game-shell { width:min(100vw,161.765dvh); min-height:0; aspect-ratio:1100 / 680; background:#345d55; }
+  .overlay, .start-screen { min-height:0; }
+  .touch-controls { grid-template-columns:repeat(2, 54px); gap:5px; padding:5px; right:max(10px, env(safe-area-inset-right)); bottom:max(10px, env(safe-area-inset-bottom)); }
+  .touch-key, .touch-action, .touch-fullscreen { width:54px; min-width:54px; height:48px; min-height:48px; border-width:2px; font-size:14px; }
+  .touch-action small, .touch-fullscreen small { font-size:7px; }
+  .mobile-orientation-note { display:none; }
+}

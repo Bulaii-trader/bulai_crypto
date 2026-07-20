@@ -458,10 +458,17 @@ document.querySelector('#bag-button').onclick = () => !startScreen.classList.con
 soundButton.onclick = () => { state.soundOn = !state.soundOn; if (state.soundOn) { enableAudio(); playUi(); } persist(); updateHUD(); };
 document.querySelectorAll('[data-key]').forEach(button => {
   const key=button.dataset.key;
-  const down=event=>{event.preventDefault();enableAudio();keys.add(key);};
+  const down=event=>{event.preventDefault();button.setPointerCapture?.(event.pointerId);enableAudio();keys.add(key);};
   const up=event=>{event.preventDefault();keys.delete(key);};
   button.addEventListener('pointerdown',down);button.addEventListener('pointerup',up);button.addEventListener('pointerleave',up);button.addEventListener('pointercancel',up);
 });
 document.querySelector('#touch-interact').addEventListener('pointerdown', event => { event.preventDefault();enableAudio();interact(); });
+document.querySelector('#touch-fullscreen').addEventListener('pointerdown', async event => {
+  event.preventDefault();
+  enableAudio();
+  try { if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); } catch { /* iOS may ignore fullscreen requests */ }
+  try { await screen.orientation?.lock?.('landscape'); } catch { /* orientation lock is optional */ }
+});
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) screen.orientation?.unlock?.(); });
 document.querySelector('#start-button').onclick = () => { enableAudio(); state.name=nameInput.value.trim()||'小魔法師';persist();updateHUD();enterStage();startScreen.classList.add('hidden');locked=false;if(!state.intro) intro(); };
 nameInput.value=state.name;updateHUD();requestAnimationFrame(loop);
