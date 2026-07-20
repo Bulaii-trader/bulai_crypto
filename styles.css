@@ -13,7 +13,7 @@ button { cursor: pointer; }
 .avatar img { width: 130%; height: 130%; max-width: none; object-fit: contain; image-rendering: pixelated; }
 .identity small, .identity strong { display: block; line-height: 1.25; }.identity small { font-size: 11px; color: #58736e; }.identity strong { font-size: 13px; }
 .progress { width: 120px; height: 13px; overflow: hidden; background: rgba(24,59,66,.4); border: 2px solid #fff9e9; border-radius: 99px; box-shadow: 0 2px 0 #183b42; }.progress span { display: block; width: 8%; height: 100%; background: var(--gold); border-radius: inherit; transition: width .5s ease; }
-.round-button { width: 43px; height: 43px; color: var(--ink); background: #fff9e9; border: 3px solid #255653; border-radius: 50%; box-shadow: 0 3px 0 #183b42; pointer-events: auto; font-size: 19px; }.bag-button { margin-left: auto; }.bag-button + .round-button { margin-left: 0; }
+.round-button { width: 43px; height: 43px; color: var(--ink); background: #fff9e9; border: 3px solid #255653; border-radius: 50%; box-shadow: 0 3px 0 #183b42; pointer-events: auto; font-size: 19px; transition: transform .12s ease, filter .12s ease; }.round-button:hover { transform: translateY(-2px); filter: brightness(1.08); }.bag-button { margin-left: auto; }.bag-button + .round-button { margin-left: 0; }
 .edge-hint { position: absolute; top: 98px; left: 28px; z-index: 2; padding: 8px 15px; color: #fff9e9; background: #255653; border-radius: 99px; font-size: 13px; animation: bob 1.5s ease-in-out infinite; }.hidden { display: none !important; }
 .start-screen, .overlay { position: absolute; inset: 0; z-index: 5; display: grid; place-content: center; justify-items: center; padding: 30px; text-align: center; background: linear-gradient(155deg, rgba(77,23,28,.45), rgba(22,12,24,.91)); color: var(--paper); }
 .start-screen:before { position: absolute; inset: 16px; content: ''; border: 1px solid rgba(255,249,233,.45); pointer-events: none; }
@@ -25,5 +25,108 @@ button { cursor: pointer; }
 .identity, .round-button { border-color: #7f302d; box-shadow: 4px 4px 0 #331722; }.progress { border-color: #ffd36d; }.progress span { background: linear-gradient(90deg, #f04d2f 0 50%, #ffc44f 50%); }.round-button { color: #fff0c9; background: #61262b; }.edge-hint { background: #9d342c; }.panel { border-color: #8e342e; box-shadow: 6px 6px 0 #351823; }.choice { border-color: #91352d; }.choice:hover { background: #ffd063; }.continue { background: #a5342c; border-color: #6b2829; }.fact { background: #ffe5a4; border-left-color: #e34c2f; }.formula { background: #44202b; }.levelup { background: radial-gradient(circle, #d4502f, #211423 70%); }.levelup .badge { background: #ffbd3e; border-color: #fff0c9; box-shadow: 0 0 0 6px #d34a2d; animation: flame-pop .8s steps(4) both; }.levelup h2 { animation: flame-pop .8s .16s steps(4) both; }
 .review { width: min(760px, 94vw); }.review .eyebrow { color: #c44732; }.review h2 { margin-bottom: 0; }.review-score { display: flex; align-items: baseline; gap: 7px; margin: 5px 0 16px; color: #8e3a31; }.review-score b { color: #d84a2e; font-size: 34px; }.review-score span { margin-left: auto; color: #6b4a40; font: 12px 'Noto Sans TC', sans-serif; }.review-list { display: grid; gap: 8px; }.review-item { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px; background: #ffe7ab; border-left: 5px solid #ce4b32; }.review-item.correct { border-left-color: #4a8d72; background: #e5f0c8; }.review-mark { display: grid; place-items: center; width: 25px; height: 25px; color: #fff0c9; background: #c84732; font-weight: 900; }.review-item.correct .review-mark { background: #458064; }.review-item b, .review-item small { display: block; }.review-item small { margin-top: 2px; color: #72584c; font: 11px 'Noto Sans TC', sans-serif; }.review-item p { margin: 4px 0 0; font: 12px/1.5 'Noto Sans TC', sans-serif; }.unlock-card { margin: 16px auto; padding: 10px; color: #4c2029; background: #ffdc79; border: 3px solid #fff0c9; box-shadow: 4px 4px 0 #8d302d; font-size: 13px; }
 .bag { width: min(760px, 94vw); }.bag-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }.bag-top p { margin: 0; color: #864034; font-size: 12px; }.bag-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; margin: 20px 0; }.bag-item { min-height: 134px; padding: 12px 8px; background: #ffe4a0; border: 3px solid #9c3a30; text-align: center; }.bag-item.locked { color: #8c7464; background: #e5ccb0; border-color: #ab8d79; filter: saturate(.4); }.bag-icon { display: block; margin-bottom: 8px; font-size: 30px; }.bag-item b { display: block; font: 700 12px/1.35 'Noto Sans TC', sans-serif; }.bag-item small { display: block; margin-top: 5px; font: 10px/1.4 'Noto Sans TC', sans-serif; }.bag-tip { margin: 0; padding: 10px; background: #44202b; color: #fff0c9; font: 12px/1.7 'Noto Sans TC', sans-serif; }
-@media (max-width: 620px) { .bag-grid { grid-template-columns: repeat(2, 1fr); }.bag-item { min-height: 105px; } }
+.chart-demo { margin: 15px 0; padding: 10px; background: #2a1926; border: 3px solid #9d392f; }.chart-demo figcaption { margin-bottom: 7px; color: #ffd36a; font: 700 12px 'Noto Sans TC', sans-serif; }.chart-demo svg { display: block; width: 100%; height: auto; overflow: visible; }.chart-demo text { fill: #fff0c9; font: 700 12px 'Noto Sans TC', sans-serif; }
+.demon-portrait { background: #351823; overflow: hidden; }.demon-portrait img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.mentor-portrait { overflow: hidden; background:#294b47; }.mentor-portrait img { width:125%; height:125%; max-width:none; object-fit:contain; image-rendering:pixelated; }
+.touch-controls { position:absolute; right:18px; bottom:18px; z-index:3; display:flex; align-items:end; gap:8px; pointer-events:auto; user-select:none; -webkit-user-select:none; }
+.touch-key, .touch-action { display:grid; place-items:center; min-width:58px; min-height:58px; color:#fff8e8; background:rgba(25,53,53,.86); border:3px solid #e9d38e; border-radius:0; box-shadow:4px 4px 0 #18363b; font-weight:900; touch-action:none; }
+.touch-action { min-width:72px; min-height:72px; color:#253d39; background:#efc865; line-height:1; }.touch-action small { font-size:10px; }.touch-key:active, .touch-action:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #18363b; }
+@media (min-width: 801px) and (pointer: fine) { .touch-controls { opacity:.55; } .touch-controls:hover { opacity:1; } }
+@media (max-width:600px) { .touch-controls { right:12px; bottom:12px; gap:6px; }.touch-key { min-width:50px; min-height:50px; }.touch-action { min-width:62px; min-height:62px; } }
+.reward { width: min(760px, 94vw); text-align: center; }.reward > p { font-family: 'Noto Sans TC', sans-serif; }.reward-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 19px 0; }.element-button { display: grid; min-height: 130px; align-content: center; gap: 4px; padding: 12px; border: 4px solid #fff0c9; box-shadow: 5px 5px 0 #351823; color: #fffaf0; text-decoration: none; transition: transform .15s ease; }.element-button:hover { transform: translate(-2px,-2px); }.element-button span { font-size: 31px; }.element-button b { font: 800 15px 'Noto Sans TC', sans-serif; }.element-button small { font: 11px 'Noto Sans TC', sans-serif; opacity: .92; }.element-button.community { background: #6b53a7; }.element-button.grass { background: #468448; }.element-button.water { background: #31769b; }.element-button.fire { background: #c84a2d; }.reward-disclaimer { margin: 8px 0 16px; color: #79534b; font-size: 11px; }
+@media (max-width: 620px) { .bag-grid { grid-template-columns: repeat(2, 1fr); }.bag-item { min-height: 105px; }.reward-grid { grid-template-columns: 1fr; }.element-button { min-height: 94px; } }
 @media (max-width: 600px) { .hud { inset: 12px 12px auto; }.identity { padding-right: 9px; }.progress { width: 65px; }.identity strong { font-size: 11px; }.edge-hint { top: 75px; left: 12px; font-size: 11px; }.panel { padding: 22px 18px; }.forge { grid-template-columns: repeat(2, 1fr); } }
+
+/* Calm village palette: the fire wizard remains the warm focal point. */
+:root { --ink:#213b37; --paper:#fff8e8; --coral:#5c9870; --gold:#efc865; --leaf:#4f916c; --night:#18313a; }
+body { background:#122a31; }
+#game-shell { background:#345d55; box-shadow:0 0 90px #0c1d23; }
+.start-screen, .overlay { background:linear-gradient(155deg,rgba(45,91,78,.38),rgba(16,39,51,.91)); }
+.start-screen h1 { text-shadow:4px 4px 0 #285a52; }
+.start-screen input { border-color:#4d896c; }
+.primary { color:#213b37; box-shadow:5px 5px 0 #285a52; }
+.identity, .round-button { border-color:#356f62; box-shadow:4px 4px 0 #1d4846; }
+.round-button { color:#fff8e8; background:#356f62; }
+.progress span { background:linear-gradient(90deg,#5f9f73 0 50%,#efc865 50%); }
+.edge-hint { background:#3c8068; }
+.panel { border-color:#3a7c6b; box-shadow:6px 6px 0 #204c4a; }
+.choice { border-color:#4b8a70; }
+.continue { background:#3b8068; border-color:#285f53; }
+.fact { background:#e9f1cb; border-left-color:#5b9b71; }
+.formula, .bag-tip { background:#274d4d; }
+.levelup { background:radial-gradient(circle,#5d9c77,#19333c 70%); }
+.levelup .badge { box-shadow:0 0 0 6px #4e9270; }
+
+/* Preserve the authored 16:10 pixel stage on every viewport. */
+body { display:grid; place-items:center; min-height:100dvh; background:radial-gradient(circle at 50% 40%,#285247 0 18%,#122a31 62%); }
+#game-shell { width:min(1100px,100vw,161.765dvh); min-height:0; aspect-ratio:1100 / 680; background:#345d55; }
+#game { width:100%; height:auto; aspect-ratio:550 / 340; object-fit:contain; }
+
+.quest-ribbon { position:absolute; top:18px; right:174px; z-index:3; display:grid; gap:5px; min-width:202px; padding:7px 10px; color:#fff8e8; background:rgba(26,65,62,.92); border:3px solid #83b286; box-shadow:4px 4px 0 #18363b; font:800 11px/1.1 'Noto Sans TC',sans-serif; letter-spacing:.03em; pointer-events:none; }
+.quest-nodes { display:flex; gap:5px; }
+.quest-node { width:100%; height:6px; background:#50736b; border:1px solid #bad5a9; }
+.quest-node.done { background:#efc865; border-color:#fff3bb; }
+.quest-node.active { background:#f07a43; border-color:#fff3bb; animation:quest-pulse .85s steps(2) infinite; }
+
+@keyframes quest-pulse { 50% { filter:brightness(1.45); transform:translateY(-1px); } }
+
+@media (max-width:760px) {
+  #game-shell { width:100vw; }
+  .hud { inset:8px 8px auto; gap:6px; }
+  .avatar { width:30px; height:30px; }
+  .identity { gap:5px; padding:4px 7px 4px 4px; border-width:2px; }
+  .identity small { font-size:8px; }.identity strong { font-size:9px; }
+  .progress { width:48px; height:10px; border-width:2px; }
+  .round-button { width:32px; height:32px; border-width:2px; box-shadow:2px 2px 0 #1d4846; font-size:14px; }
+  .quest-ribbon { top:47px; right:8px; min-width:148px; padding:5px 7px; border-width:2px; font-size:8px; box-shadow:2px 2px 0 #18363b; }
+  .quest-node { height:4px; }
+  .edge-hint { top:48px; left:8px; padding:5px 8px; border-width:1px; font-size:8px; }
+  .touch-controls { right:8px; bottom:8px; gap:4px; }
+  .touch-key { min-width:37px; min-height:37px; border-width:2px; box-shadow:2px 2px 0 #18363b; font-size:11px; }
+  .touch-action { min-width:47px; min-height:47px; border-width:2px; box-shadow:2px 2px 0 #18363b; font-size:11px; }
+  .touch-action small { font-size:7px; }
+  .start-screen, .overlay { padding:14px; }
+  .start-screen h1 { font-size:clamp(28px,8vw,43px); }.subtitle { margin:7px 0 9px; font-size:10px; }
+  .title-mark { width:42px; height:42px; }.title-mark img { width:54px; height:54px; }
+  .eyebrow { margin:4px 0 2px; font-size:8px; }.controls, .disclaimer { margin-top:8px; font-size:7px; }
+  .start-screen label, .primary { width:min(240px,88vw); }.start-screen input, .primary { padding:8px 10px; font-size:10px; }
+}
+
+.start-screen h1 small { display:block; margin-top:.42em; color:#d6edcb; font:800 .25em/1.1 'DM Mono','Noto Sans TC',sans-serif; letter-spacing:.34em; text-shadow:none; }
+
+/* A compact title treatment keeps the cover legible inside a horizontal game frame. */
+.start-screen { background:linear-gradient(155deg,rgba(27,67,66,.9),rgba(16,39,51,.97)); }
+.start-screen h1 { font-size:clamp(38px,5.7vw,64px); line-height:.9; }
+.start-screen h1 em { display:block; margin-top:.04em; font-size:.92em; }
+
+@media (max-width:760px) {
+  .start-screen { padding:10px; }
+  .start-screen:before { inset:8px; }
+  .title-mark { width:38px; height:38px; margin:0; }.title-mark img { width:48px; height:48px; }
+  .eyebrow { margin:2px 0; font-size:7px; letter-spacing:.13em; }
+  .start-screen h1 { font-size:clamp(25px,6.2vw,34px); line-height:.88; }
+  .start-screen h1 em { font-size:1.16em; }.start-screen h1 small { margin-top:.35em; font-size:.22em; letter-spacing:.28em; }
+  .subtitle { margin:6px 0; font-size:9px; }
+  .start-screen label { gap:3px; font-size:9px; }.start-screen input { padding:7px 9px; border-width:2px; }
+  .primary { margin-top:6px; padding:8px 10px; border-width:2px; box-shadow:3px 3px 0 #285a52; }
+  .controls { margin-top:6px; font-size:7px; }.disclaimer { margin-top:4px; font-size:6px; }
+}
+
+@media (max-width:760px) and (max-height:520px) {
+  .title-mark { width:28px; height:28px; }.title-mark img { width:38px; height:38px; }
+  .start-screen h1 { font-size:clamp(23px,5.8vw,31px); }
+  .subtitle { margin:4px 0; }.controls { margin-top:4px; }.disclaimer { display:none; }
+}
+
+.final-awakening { display:grid; grid-template-columns:1.12fr .88fr; overflow:hidden; margin:10px 0 16px; background:#18343c; border:4px solid #e9d38e; box-shadow:5px 5px 0 #285a52; }
+.final-awakening img { display:block; width:100%; height:100%; min-height:205px; object-fit:cover; image-rendering:pixelated; }
+.final-awakening-copy { display:grid; align-content:center; gap:8px; padding:18px; color:#fff8e8; background:linear-gradient(145deg,#234c50,#19323c); }
+.final-awakening-copy small { color:#efc865; font:800 10px 'DM Mono',monospace; letter-spacing:.13em; }
+.final-awakening-copy h2 { margin:0; color:#fff3bb; font:800 23px/1.2 'Noto Sans TC',sans-serif; }
+.final-awakening-copy p { margin:0; color:#d9ead4; font:13px/1.75 'Noto Sans TC',sans-serif; }
+.awakening-rule { padding:9px; color:#21423c; background:#efc865; border-left:4px solid #f07a43; font:800 12px/1.5 'Noto Sans TC',sans-serif; }
+.reward h3 { margin:4px 0 0; color:#285a52; font-size:20px; }
+
+@media (max-width:620px) {
+  .final-awakening { grid-template-columns:1fr; }.final-awakening img { min-height:150px; max-height:225px; }.final-awakening-copy { padding:13px; }.final-awakening-copy h2 { font-size:19px; }
+}

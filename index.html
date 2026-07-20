@@ -4,31 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#244c48" />
-    <title>交易魔法師之村</title>
+    <title>布萊得比特交易魔法師：元素試煉</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main id="game-shell" aria-label="交易魔法師之村">
-      <canvas id="game" width="550" height="340" aria-label="交易村遊戲畫面"></canvas>
+    <main id="game-shell" aria-label="布萊得比特交易魔法師元素試煉">
+      <canvas id="game" width="550" height="340" aria-label="橫向試煉遊戲畫面"></canvas>
       <section class="hud" aria-live="polite">
         <div class="identity">
-          <div class="avatar"><img src="assets/fire-wizard-walk-0.png" alt="8-bit 火元素交易魔法師角色頭像" /></div>
+          <div class="avatar"><img src="assets/fire-wizard-x8-walk-0.png" alt="8-bit 火元素交易魔法師角色頭像" /></div>
           <div><small id="player-name">見習生</small><strong id="rank">Lv.0 火之見習生</strong></div>
         </div>
         <div class="progress" title="學徒進度"><span id="progress-fill"></span></div>
         <button id="bag-button" class="round-button bag-button" aria-label="開啟背包">🎒</button>
+        <button id="sound-button" class="round-button" aria-label="切換音效">🔊</button>
         <button id="menu-button" class="round-button" aria-label="開啟選單">☰</button>
       </section>
-      <div id="edge-hint" class="edge-hint hidden">← 前往灼焰工坊</div>
+      <div id="edge-hint" class="edge-hint hidden">→ 前往試煉</div>
+      <section class="quest-ribbon" aria-label="試煉進度">
+        <span id="quest-title">第 1 關・古堡鍛造院</span>
+        <div id="quest-nodes" class="quest-nodes" aria-label="五關試煉進度"></div>
+      </section>
+      <nav class="touch-controls" aria-label="手機遊戲操作">
+        <button class="touch-key touch-left" data-key="arrowleft" aria-label="向左移動">◀</button>
+        <button class="touch-key touch-right" data-key="arrowright" aria-label="向右移動">▶</button>
+        <button class="touch-action" id="touch-interact" aria-label="互動">E<br /><small>互動</small></button>
+      </nav>
       <section id="overlay" class="overlay hidden" aria-live="polite"></section>
       <section id="start-screen" class="start-screen">
-        <div class="title-mark"><img src="assets/fire-wizard-walk-0.png" alt="火元素交易魔法師" /></div>
-        <p class="eyebrow">EMBER WIZARD VILLAGE</p>
-        <h1>交易魔法師<br /><em>之村</em></h1>
-        <p class="subtitle">掌握風險，駕馭屬於你的烈焰。</p>
+        <div class="title-mark"><img src="assets/fire-wizard-x8-walk-0.png" alt="火元素交易魔法師" /></div>
+        <p class="eyebrow">ELEMENTAL SIDE-SCROLL TRIALS</p>
+        <h1>布萊得比特<br /><em>交易魔法師</em><small>元素試煉</small></h1>
+        <p class="subtitle">橫向前進，依序面對五個交易中的自己。</p>
         <label>你的冒險者暱稱<input id="name-input" maxlength="12" placeholder="例如：小幣" /></label>
-        <button id="start-button" class="primary">踏入熾焰村 <span>→</span></button>
-        <p class="controls">WASD / 方向鍵移動　·　E 互動　·　B 背包　·　Esc 選單</p>
+        <button id="start-button" class="primary">開始第一關 <span>→</span></button>
+        <p class="controls">A／D 或方向鍵移動　·　E 互動　·　手機可用畫面下方按鈕</p>
         <p class="disclaimer">本遊戲內容僅為教育用途，不構成投資建議。合約交易具高風險，請自行評估。</p>
       </section>
     </main>
